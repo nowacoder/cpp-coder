@@ -144,18 +144,40 @@ vector<vector<int>> levelOrder(TreeNode* root) {
     return rst;
 }
 
+bool isSymSub(TreeNode* left, TreeNode* right) {
+    if (left!=nullptr and right!=nullptr) {
+        if (left->val==right->val) {
+            if (isSymSub(left->left, right->right) and 
+                isSymSub(left->right, right->left)) 
+                return true;
+            else return false;
+        } else return false;
+    } else if (left==nullptr and right==nullptr)
+        return true;
+    else return false;
+}
+
+bool isSymmetric(TreeNode* root) {
+    if (root==nullptr) return true;
+    return isSymSub(root->left, root->right);
+}
+
 int main() {
     string line;
     while (getline(cin, line)) {
         TreeNode* root = stringToTreeNode(line);
         prettyPrintTree(root);
+
+        cout << isSymmetric(root) << endl;
+
+        /*
         auto rst = levelOrder(root);
         for (auto row : rst) {
             for (int v : row) {
                 cout << v << ' ';
             }
             cout << endl;
-        }
+        } */
     }
     return 0;
 }
